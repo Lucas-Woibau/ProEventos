@@ -7,47 +7,47 @@ namespace ProEventos.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class EventoController : ControllerBase
+public class EventosController : ControllerBase
 {
     private readonly DataContext _context;
 
-    public EventoController(DataContext context)
+    public EventosController(DataContext context)
     {
         _context = context;
     }
 
     [HttpGet]
-    public IEnumerable<Evento> Get()
+    public IEnumerable<Eventos> Get()
     {
         return _context.Eventos;
     }
 
     [HttpGet("{id}")]
-    public Evento GetById(int id)
+    public Eventos GetById(int id)
     {
         return _context.Eventos.FirstOrDefault(
             e => e.EventoId == id)!;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post(Evento evento)
+    public async Task<IActionResult> Post(Eventos eventos)
     {
-        _context.Eventos.Add(evento);
+        _context.Eventos.Add(eventos);
         await _context.SaveChangesAsync();
 
-        return Ok(evento);
+        return Ok(eventos);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] Evento evento)
+    public async Task<IActionResult> Put(int id, [FromBody] Eventos eventos)
     {
-        if (evento.EventoId == id)
+        if (eventos.EventoId == id)
         {
-            _context.Entry(evento).State = EntityState.Modified;
+            _context.Entry(eventos).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
-        return Ok(evento);
+        return Ok(eventos);
     }
 
     [HttpDelete("{id}")]
